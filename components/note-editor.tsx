@@ -9,11 +9,25 @@ import { Save, X } from 'lucide-react';
 
 interface NoteEditorProps {
     note: Note;
+    onCancel: () => void;
+    onSave: (note: Note) => void;
 }
 
-export default function NoteEditor({ note }: NoteEditorProps) {
+export default function NoteEditor({
+    note,
+    onCancel,
+    onSave,
+}: NoteEditorProps) {
     const [title, setTitle] = useState(note.title);
     const [content, setContent] = useState(note.content);
+
+    const handleSave = () => {
+        onSave({
+            ...note,
+            title: title.trim() || 'Untitled Note',
+            content,
+        });
+    };
 
     return (
         <Card>
@@ -30,7 +44,7 @@ export default function NoteEditor({ note }: NoteEditorProps) {
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     placeholder="Write your note here"
-                    className="min-h-[calc(100vh-350px)] resize-none border-none focus-visible:ring-0 p-0"
+                    className="h-[calc(100vh-350px)] resize-none border-none focus-visible:ring-0 p-0"
                 />
             </CardContent>
             <CardFooter className="flex justify-end space-x-2">
